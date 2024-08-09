@@ -169,9 +169,9 @@ void multMatMatUnrollJamBk(MatRow A, MatRow B, int n, MatRow C)
       {
         kStart = kk * BK_FATOR;
         kEnd = kStart + BK_FATOR;
-        for (int i = 0; i < iEnd; ++i)
-          for (int j = 0; j < jEnd; ++j)
-            for (int k = 0; k < kEnd; ++k)
+        for (int i = iStart; i < iEnd; ++i)
+          for (int j = jStart; j < jEnd; ++j)
+            for (int k = kStart; k < kEnd; ++k)
               for (int z = 0; z < UF_FATOR; ++z)
                 C[i * n + (j + z)] += A[i * n + k] * B[k * n + (j + z)];
       }

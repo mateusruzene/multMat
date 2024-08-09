@@ -54,6 +54,6 @@ dados=sys.argv[3]+"/"+sys.argv[1]+"_"+sys.argv[2]+".txt"
 # print(tam+',', end='')
 n=tam+','
 
-os.system("echo -n "+n+";cat "+dados+" | egrep '^"+campos[metrica]+"' | cut -d',' -f 2 |  awk '{print}' ORS=',' | sed -e 's;,$;;g'")
+os.system("echo -n "+n+";cat "+dados+" | egrep '"+campos[metrica]+"' | cut -d',' -f 2 |  awk '{print}' ORS=',' | sed -e 's;,$;;g'")
 
 print()

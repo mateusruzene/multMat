@@ -1,0 +1,92 @@
+STRUCT,Info,3
+CPU name:,Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz,
+CPU type:,Intel Xeon SandyBridge EN/EP processor,
+CPU clock:,2.593608148 GHz,
+TABLE,Region MULT_MAT_VET,Group 1 Raw,L2CACHE,5
+Region Info,Core 3,
+RDTSC Runtime [s],0.000373,
+call count,1,
+Event,Counter,Core 3
+INSTR_RETIRED_ANY,FIXC0,1844025
+CPU_CLK_UNHALTED_CORE,FIXC1,980601
+CPU_CLK_UNHALTED_REF,FIXC2,980616
+L2_TRANS_ALL_REQUESTS,PMC0,119129
+L2_RQSTS_MISS,PMC1,47744
+TABLE,Region MULT_MAT_VET,Group 1 Metric,L2CACHE,7
+Metric,Core 3,
+Runtime (RDTSC) [s],0.0004,
+Runtime unhalted [s],0.0004,
+Clock [MHz],2593.5685,
+CPI,0.5318,
+L2 request rate,0.0646,
+L2 miss rate,0.0259,
+L2 miss ratio,0.4008,
+STRUCT,Info,3
+CPU name:,Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz,
+CPU type:,Intel Xeon SandyBridge EN/EP processor,
+CPU clock:,2.593608148 GHz,
+TABLE,Region MULT_MAT_MAT,Group 1 Raw,L2CACHE,5
+Region Info,Core 3,
+RDTSC Runtime [s],0.419705,
+call count,1,
+Event,Counter,Core 3
+INSTR_RETIRED_ANY,FIXC0,1076635000
+CPU_CLK_UNHALTED_CORE,FIXC1,1155903000
+CPU_CLK_UNHALTED_REF,FIXC2,1081562000
+L2_TRANS_ALL_REQUESTS,PMC0,276757700
+L2_RQSTS_MISS,PMC1,134790600
+TABLE,Region MULT_MAT_MAT,Group 1 Metric,L2CACHE,7
+Metric,Core 3,
+Runtime (RDTSC) [s],0.4197,
+Runtime unhalted [s],0.4457,
+Clock [MHz],2771.8794,
+CPI,1.0736,
+L2 request rate,0.2571,
+L2 miss rate,0.1252,
+L2 miss ratio,0.4870,
+STRUCT,Info,3
+CPU name:,Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz,
+CPU type:,Intel Xeon SandyBridge EN/EP processor,
+CPU clock:,2.593608148 GHz,
+TABLE,Region MULT_MAT_VET_UNROLL_JAM,Group 1 Raw,L2CACHE,5
+Region Info,Core 3,
+RDTSC Runtime [s],0.000147,
+call count,1,
+Event,Counter,Core 3
+INSTR_RETIRED_ANY,FIXC0,1185997
+CPU_CLK_UNHALTED_CORE,FIXC1,493525
+CPU_CLK_UNHALTED_REF,FIXC2,388934
+L2_TRANS_ALL_REQUESTS,PMC0,129279
+L2_RQSTS_MISS,PMC1,43698
+TABLE,Region MULT_MAT_VET_UNROLL_JAM,Group 1 Metric,L2CACHE,7
+Metric,Core 3,
+Runtime (RDTSC) [s],0.0001,
+Runtime unhalted [s],0.0002,
+Clock [MHz],3291.0737,
+CPI,0.4161,
+L2 request rate,0.1090,
+L2 miss rate,0.0368,
+L2 miss ratio,0.3380,
+STRUCT,Info,3
+CPU name:,Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz,
+CPU type:,Intel Xeon SandyBridge EN/EP processor,
+CPU clock:,2.593608148 GHz,
+TABLE,Region MULT_MAT_MAT_UNRJAM_BLOCKING,Group 1 Raw,L2CACHE,5
+Region Info,Core 3,
+RDTSC Runtime [s],0.936479,
+call count,1,
+Event,Counter,Core 3
+INSTR_RETIRED_ANY,FIXC0,4900046000
+CPU_CLK_UNHALTED_CORE,FIXC1,3073846000
+CPU_CLK_UNHALTED_REF,FIXC2,2421963000
+L2_TRANS_ALL_REQUESTS,PMC0,390819900
+L2_RQSTS_MISS,PMC1,18042230
+TABLE,Region MULT_MAT_MAT_UNRJAM_BLOCKING,Group 1 Metric,L2CACHE,7
+Metric,Core 3,
+Runtime (RDTSC) [s],0.9365,
+Runtime unhalted [s],1.1852,
+Clock [MHz],3291.6903,
+CPI,0.6273,
+L2 request rate,0.0798,
+L2 miss rate,0.0037,
+L2 miss ratio,0.0462,

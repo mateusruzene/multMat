@@ -3,6 +3,7 @@
 #include <string.h>
 #include <getopt.h> /* getopt */
 #include <time.h>
+
 #include <likwid.h>
 
 #include "matriz.h"
@@ -27,11 +28,11 @@ static void usage(char *progname)
 
 int main(int argc, char *argv[])
 {
-  LIKWID_MARKER_INIT;
+
   int n = DEF_SIZE;
 
-  MatRow mRow_1, mRow_2, resMat;
-  Vetor vet, res;
+  MatRow mRow_1, mRow_2, resMat1, resMat2;
+  Vetor vet, res1, res2;
 
   /* =============== TRATAMENTO DE LINHA DE COMANDO =============== */
 
@@ -44,80 +45,94 @@ int main(int argc, char *argv[])
 
   srandom(20232);
 
-  res = geraVetor(n, 0); // (real_t *) malloc (n*sizeof(real_t));
-  resMat = geraMatRow(n, n, 1);
+  res1 = geraVetor(n, 1);
+  res2 = geraVetor(n, 1);
+  resMat1 = geraMatRow(n, n, 1);
+  resMat2 = geraMatRow(n, n, 1);
 
   mRow_1 = geraMatRow(n, n, 0);
   mRow_2 = geraMatRow(n, n, 0);
 
   vet = geraVetor(n, 0);
 
-  if (!res || !resMat || !mRow_1 || !mRow_2 || !vet)
+  if (!res1 || !res2 || !resMat1 || !resMat2 || !mRow_1 || !mRow_2 || !vet)
   {
     fprintf(stderr, "Falha em alocação de memória !!\n");
     liberaVetor((void *)mRow_1);
     liberaVetor((void *)mRow_2);
-    liberaVetor((void *)resMat);
+    liberaVetor((void *)resMat1);
+    liberaVetor((void *)resMat2);
     liberaVetor((void *)vet);
-    liberaVetor((void *)res);
+    liberaVetor((void *)res1);
+    liberaVetor((void *)res2);
     exit(2);
   }
 
 #ifdef _DEBUG_
   prnMat(mRow_1, n, n);
   prnMat(mRow_2, n, n);
-  prnVetor(vet, n);
+  prnMat(mRow_3, n, n);
+  prnMat(mRow_4, n, n);
+
+  prnVetor(vet1, n);
+  prnVetor(vet2, n);
   printf("=================================\n\n");
 #endif /* _DEBUG_ */
 
+  LIKWID_MARKER_INIT;
+
   /* MATxVET sem otimizacao */
   LIKWID_MARKER_START("MULT_MAT_VET");
-  double tempoMatVet = timestamp();
-  multMatVet(mRow_1, vet, n, n, res);
-  tempoMatVet = timestamp() - tempoMatVet;
+  double tempo = timestamp();
+  multMatVet(mRow_1, vet, n, n, res1);
+  tempo = timestamp() - tempo;
   LIKWID_MARKER_STOP("MULT_MAT_VET");
 
-  printf("tempo matvet sem otimizacao: %f\n", tempoMatVet);
+  printf("%d,%f,", n, tempo);
 
   /* MATxMAT sem otimizacao */
   LIKWID_MARKER_START("MULT_MAT_MAT");
-  double tempoMatMat = timestamp();
-  multMatMat(mRow_1, mRow_2, n, resMat);
-  tempoMatMat = timestamp() - tempoMatMat;
+  tempo = timestamp();
+  multMatMat(mRow_1, mRow_2, n, resMat1);
+  tempo = timestamp() - tempo;
   LIKWID_MARKER_STOP("MULT_MAT_MAT");
 
-  printf("tempo matmat sem otimizacao: %f\n", tempoMatMat);
+  printf("%f,", tempo);
 
   /* MATxVET com otimizacao */
   LIKWID_MARKER_START("MULT_MAT_VET_UNROLL_JAM");
-  double tempoMatVetOtimizado = timestamp();
-  multMatVetUnrollJam(mRow_1, vet, n, n, res);
-  tempoMatVetOtimizado = timestamp() - tempoMatVetOtimizado;
+  tempo = timestamp();
+  multMatVetUnrollJam(mRow_1, vet, n, n, res2);
+  tempo = timestamp() - tempo;
   LIKWID_MARKER_STOP("MULT_MAT_VET_UNROLL_JAM");
 
-  printf("tempo matvet com otimizacao: %f\n", tempoMatVetOtimizado);
+  printf("%f,", tempo);
 
   /* MATxMAT com otimizacao */
   LIKWID_MARKER_START("MULT_MAT_MAT_UNRJAM_BLOCKING");
-  double tempoMatMatOtimizado = timestamp();
-  multMatMatUnrollJamBk(mRow_1, mRow_2, n, resMat);
-  tempoMatMatOtimizado = timestamp() - tempoMatMatOtimizado;
+  tempo = timestamp();
+  multMatMatUnrollJamBk(mRow_1, mRow_2, n, resMat2);
+  tempo = timestamp() - tempo;
   LIKWID_MARKER_STOP("MULT_MAT_MAT_UNRJAM_BLOCKING");
 
-  printf("tempo matmat com otimizacao: %f\n", tempoMatMatOtimizado);
+  printf("%f\n", tempo);
+
+  LIKWID_MARKER_CLOSE;
 
 #ifdef _DEBUG_
-  prnVetor(res, n);
-  prnMat(resMat, n, n);
+  prnVetor(res1, n);
+  prnMat(resMat1, n, n);
+  prnVetor(res2, n);
+  prnMat(resMat2, n, n);
 #endif /* _DEBUG_ */
 
   liberaVetor((void *)mRow_1);
   liberaVetor((void *)mRow_2);
-  liberaVetor((void *)resMat);
+  liberaVetor((void *)resMat1);
+  liberaVetor((void *)resMat2);
   liberaVetor((void *)vet);
-  liberaVetor((void *)res);
-
-  LIKWID_MARKER_CLOSE;
+  liberaVetor((void *)res1);
+  liberaVetor((void *)res2);
 
   return 0;
 }

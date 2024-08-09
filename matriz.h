@@ -7,7 +7,7 @@
 #define BASE 32
 
 #define UF_FATOR 8
-#define BK_FATOR 16
+#define BK_FATOR 32
 
 #define ABS(num) ((num) < 0.0 ? -(num) : (num))
 
