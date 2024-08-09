@@ -117,17 +117,17 @@ void multMatVet(MatRow mat, Vetor v, int m, int n, Vetor res)
   }
 }
 
-void multMatVetUnrollJam(MatRow mat, Vetor v, int m, int n, int uf, Vetor res)
+void multMatVetUnrollJam(MatRow mat, Vetor v, int m, int n, Vetor res)
 {
   /* Efetua a multiplicação */
   if (res)
   {
-    for (int i = 0; i < m - m % uf; i += uf)
+    for (int i = 0; i < m - m % UF_FATOR; i += UF_FATOR)
       for (int j = 0; j < n; ++j)
-        for (int k = 0; k < uf; ++k)
+        for (int k = 0; k < UF_FATOR; ++k)
           res[i + k] += mat[n * (i + k) + j] * v[j];
     /* Calcula resíduo do laço */
-    for (int i = m - m % uf; i < m; ++i)
+    for (int i = m - m % UF_FATOR; i < m; ++i)
       for (int j = 0; j < n; ++j)
         res[i] += mat[n * i + j] * v[j];
   }
@@ -152,27 +152,27 @@ void multMatMat(MatRow A, MatRow B, int n, MatRow C)
         C[i * n + j] += A[i * n + k] * B[k * n + j];
 }
 
-void multMatMatUnrollJamBlk(MatRow A, MatRow B, int n, int uf, int blk, MatRow C)
+void multMatMatUnrollJamBk(MatRow A, MatRow B, int n, MatRow C)
 {
   /* Efetua a multiplicação */
   int iStart, iEnd, jStart, jEnd, kStart, kEnd;
 
-  for (int ii = 0; ii < n / blk; ++ii)
+  for (int ii = 0; ii < n / BK_FATOR; ++ii)
   {
-    iStart = ii * blk;
-    iEnd = iStart + blk;
-    for (int jj = 0; jj < n / blk; ++jj)
+    iStart = ii * BK_FATOR;
+    iEnd = iStart + BK_FATOR;
+    for (int jj = 0; jj < n / BK_FATOR; ++jj)
     {
-      jStart = jj * blk;
-      jEnd = jStart + blk;
-      for (int kk = 0; kk < n / blk; ++kk)
+      jStart = jj * BK_FATOR;
+      jEnd = jStart + BK_FATOR;
+      for (int kk = 0; kk < n / BK_FATOR; ++kk)
       {
-        kStart = kk * blk;
-        kEnd = kStart + blk;
+        kStart = kk * BK_FATOR;
+        kEnd = kStart + BK_FATOR;
         for (int i = 0; i < iEnd; ++i)
           for (int j = 0; j < jEnd; ++j)
             for (int k = 0; k < kEnd; ++k)
-              for (int z = 0; z < uf; ++z)
+              for (int z = 0; z < UF_FATOR; ++z)
                 C[i * n + (j + z)] += A[i * n + k] * B[k * n + (j + z)];
       }
     }

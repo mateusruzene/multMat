@@ -6,6 +6,7 @@
 #include <likwid.h>
 
 #include "matriz.h"
+#include "utils.h"
 
 /**
  * Exibe mensagem de erro indicando forma de uso do programa e termina
@@ -69,13 +70,41 @@ int main(int argc, char *argv[])
   printf("=================================\n\n");
 #endif /* _DEBUG_ */
 
+  /* MATxVET sem otimizacao */
   LIKWID_MARKER_START("MULT_MAT_VET");
+  double tempoMatVet = timestamp();
   multMatVet(mRow_1, vet, n, n, res);
+  tempoMatVet = timestamp() - tempoMatVet;
   LIKWID_MARKER_STOP("MULT_MAT_VET");
 
+  printf("tempo matvet sem otimizacao: %f\n", tempoMatVet);
+
+  /* MATxMAT sem otimizacao */
   LIKWID_MARKER_START("MULT_MAT_MAT");
+  double tempoMatMat = timestamp();
   multMatMat(mRow_1, mRow_2, n, resMat);
+  tempoMatMat = timestamp() - tempoMatMat;
   LIKWID_MARKER_STOP("MULT_MAT_MAT");
+
+  printf("tempo matmat sem otimizacao: %f\n", tempoMatMat);
+
+  /* MATxVET com otimizacao */
+  LIKWID_MARKER_START("MULT_MAT_VET_UNROLL_JAM");
+  double tempoMatVetOtimizado = timestamp();
+  multMatVetUnrollJam(mRow_1, vet, n, n, res);
+  tempoMatVetOtimizado = timestamp() - tempoMatVetOtimizado;
+  LIKWID_MARKER_STOP("MULT_MAT_VET_UNROLL_JAM");
+
+  printf("tempo matvet com otimizacao: %f\n", tempoMatVetOtimizado);
+
+  /* MATxMAT com otimizacao */
+  LIKWID_MARKER_START("MULT_MAT_MAT_UNRJAM_BLOCKING");
+  double tempoMatMatOtimizado = timestamp();
+  multMatMatUnrollJamBk(mRow_1, mRow_2, n, resMat);
+  tempoMatMatOtimizado = timestamp() - tempoMatMatOtimizado;
+  LIKWID_MARKER_STOP("MULT_MAT_MAT_UNRJAM_BLOCKING");
+
+  printf("tempo matmat com otimizacao: %f\n", tempoMatMatOtimizado);
 
 #ifdef _DEBUG_
   prnVetor(res, n);
